@@ -1,0 +1,56 @@
+.common-margin{
+	margin-left: 100px;
+	margin-right: 100px;
+}
+div{
+	font-size: 18px;
+}
+:root{
+	--bg-color:rgba(255, 255, 255, 1.0);
+	--box-height:calc(100vh - 112px);
+}
+.header-color{
+	transition: background-color  0.5s ease-in-out;
+	background-color: rgba(255,255,255,0);	
+}
+.header-color:hover{
+	transition: background-color  0.5s ease-out;
+	background-color: var(--bg-color)
+}
+.no-margin{
+	margin: 0px;
+	padding: 0px;
+}
+body{
+	margin: 0px;
+}
+.scroll .el-scrollbar__view{
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
+}
+a{
+  color: #000000;
+  text-decoration: none;
+  transition: 0.5s ease;
+}
+
+a:hover {
+  color: rgba(0, 170, 255, 1.0);
+  transition: 0.5s ease;
+}
+
+#video{
+	position: absolute;
+	z-index: -100;
+	object-fit: fill;
+	left:0px;
+	top:0px;
+	width: 100%;
+	height: 100%;
+}
+.container{
+	padding-top: 5px;
+	min-width: 500px;
+}

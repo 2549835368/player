@@ -1,0 +1,52 @@
+spring:
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+      exclude: static/**
+
+  #spring.datasource.url=jdbc:sqlserver://localhost:1433;databaseName=DB_Mor
+  #spring.datasource.username=sa
+  #spring.datasource.password=123456
+  #spring.datasource.driver-class-name=com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/db_player?userSSL=false
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password:
+      database: 0
+
+  task:
+    execution:
+      pool:
+        keep-alive: 60s
+
+mybatis-plus.configuration.log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+
+token:
+  expire :  3600
+  secret :  ASDfwWBOeRTYYyDiBNMeaIKLOeQAaXeW
+
+
+
+
+server:
+  port: 8080
+ip: 127.0.0.1
+filePath: files
