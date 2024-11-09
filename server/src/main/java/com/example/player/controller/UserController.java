@@ -39,4 +39,9 @@ public class UserController {
         User dbUser = userService.register(user);
         return Result.success(dbUser);
     }
+
+    @GetMapping("/autologin")
+    public Result autoLogin(@RequestParam("token") String token){
+        return userService.autoLogin(token);
+    }
 }

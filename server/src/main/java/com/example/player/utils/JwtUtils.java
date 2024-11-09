@@ -1,5 +1,6 @@
 package com.example.player.utils;
 
+import com.example.player.exception.ServiceException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -40,15 +41,24 @@ public class JwtUtils {
     }
 
     //解析token
-    public static Claims getClaimsByToken(String token){
-        return Jwts.parser()
-                .setSigningKey(secret)
-                .parseClaimsJws(token)
-                .getBody();
+    public static Claims getClaimsByToken(String token) {
+        Claims claims;
+        try {
+            claims = Jwts.parser()
+                    .setSigningKey(secret)
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (Exception e) {
+            throw new ServiceException(500, "登录过期");
+        }
+
+        return claims;
     }
 
     //判断token是否存在
     public static boolean judgeTokenIsExist(String token) {
-        return token != null && !token.isEmpty() && !"null".equals(token);
+        Date date = JwtUtils.getClaimsByToken(token).getExpiration();
+        Date now = new Date();
+        return token != null && !token.isEmpty() && !"null".equals(token) && date.compareTo(now) > 0;
     }
 }

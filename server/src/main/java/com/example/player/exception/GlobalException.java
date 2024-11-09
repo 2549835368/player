@@ -11,7 +11,7 @@ public class GlobalException {
     @ExceptionHandler(ServiceException.class)
     @ResponseBody
     public Result serviceException(ServiceException e){
-        return Result.error(Integer.parseInt(e.getCode()),e.getMessage());
+        return Result.error(e.getCode(),e.getMessage());
 
     }
 }

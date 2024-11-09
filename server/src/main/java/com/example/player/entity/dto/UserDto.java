@@ -15,11 +15,19 @@ public class UserDto {
     private String confirmPassword;
     private String token;
     private String profile;
+    private int role;
+    private String nickname;
+    private String avatar_url;
+    private String email;
 
 
     public UserDto(User user) {
         id = user.getId();
         username = user.getUsername();
         profile = user.getProfile();
+        role = user.getRole();
+        nickname = user.getNickname();
+        avatar_url = user.getAvatar_url();
+        email = user.getEmail();
     }
 }

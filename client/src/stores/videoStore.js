@@ -5,23 +5,23 @@ import request from '../axios/request.js'
 export const useVideoStore = defineStore('video',() =>{
 	var videoData = ref()
 	var collectionData = ref()
-	var test = 2;
 	function get(vid) {
-		request.get("videoInfo/getInfo/"+vid)
+		request.get("videoInfo/getInfo?vid="+vid)
 		.then( res =>{
 			videoData.value = res.data;
-			getCollection(res.data.collectionId)
+			getCollection(res.data.id)
 		})
 
 	}
-	function getCollection(cid){
-		if(cid != 0){
-			request.get("/collection/get/" + cid)
+
+	function getCollection(vid){
+		if(vid != 0){
+			request.get("/collection/getCollectionVideoByVid?vid=" + vid)
 			.then(res =>{
 				collectionData.value = res.data;
 			})
 		}
 	}
 	
-	return {videoData, collectionData, get,test}
+	return {videoData, collectionData, get}
 })

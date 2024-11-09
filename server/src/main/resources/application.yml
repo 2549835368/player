@@ -40,7 +40,7 @@ mybatis-plus.configuration.log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 
 token:
-  expire :  3600
+  expire :  36000
   secret :  ASDfwWBOeRTYYyDiBNMeaIKLOeQAaXeW
 
 
@@ -50,3 +50,5 @@ server:
   port: 8080
 ip: 127.0.0.1
 filePath: files
+imagePath: image
+RootPath: M:\Videos\

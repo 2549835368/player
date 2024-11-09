@@ -1,23 +1,21 @@
 <template>
 	<el-row class="container">
-		<el-col :span="1"></el-col>
-		<el-col :span="22">
-			
-			<div class="video-box">
-				<el-scrollbar ref="scrollbarRef" class="scroll">
-				<el-text truncated id="title" class="title">
-					{{title}}
-				</el-text>
-				<div class="video-main">
-					<VideoPlayer></VideoPlayer>
-				</div>
-				<Collection></Collection>
+			<div class="video-box box-background">
+				<el-scrollbar class="scroll">
+					<div class="left">
+						<el-text truncated id="title" class="title">
+							{{title}}
+						</el-text>
+						<div class="video-main">
+							<VideoPlayer></VideoPlayer>
+						</div>
+					</div>
+					<div class="right">
+						<Author></Author>
+						<RightTabs></RightTabs>
+					</div>
 				</el-scrollbar>
 			</div>
-			
-			
-		</el-col>
-		<el-col :span="1"></el-col>
 	</el-row>
 
 	
@@ -29,15 +27,15 @@
 	import { storeToRefs } from 'pinia';
 	import { useRoute, useRouter } from 'vue-router';
 	import { onMounted, ref, nextTick, watch} from 'vue';
-	import VideoPlayer from '../components/VideoPlayer.vue';
-	import Collection from '../components/Collection.vue';
-	import { ElScrollbar } from 'element-plus'
+	import VideoPlayer from '../components/play/VideoPlayer.vue';
+	import RightTabs from '../components/play/RightTabs.vue';
+	import Author from '../components/play/Author.vue'
 	
 	const route = useRoute();
 	const vid = route.params.vid;
 	const videoStore = useVideoStore();
 	var title = ref("");
-	console.log(videoStore.test)
+	// console.log(videoStore.test)
 	var {videoData} = storeToRefs(videoStore);
 	videoStore.get(vid)
 	
@@ -51,31 +49,39 @@
 
 <style scoped>
 	.video-box{
-		/* height: calc(100vh - 112px); */
+		height: var(--box-height);
 		border-radius: 10px;
 		border: solid var(--bg-color) 1px;
-		/* background-color: var(--bg-color); */
 		display: flex;
 		width: 100%;
 		justify-content: flex-start;
 		flex-direction: column;
-		align-items: center;
+		align-items: space-content;
 		flex-wrap: wrap;
 	}
 	.scroll{
 		width: 100%;
-		height: calc(100vh - 112px);
+		height: var(--box-height);
 		min-width: 500px;
 	}
 	.title{
 		/* background-color: var(--bg-color); */
 		border-radius: 10px 10px 0px 0px;
-		height: 8%;
-		line-height: calc(var(--box-height)*0.08);
+		height: 40px;
+		line-height: 40px;
 		font-size: 22px;
-		width: 70%;
+		width: 100%;
 	}
 	.video-main{
-		width: 70%;
+		height: calc(100% - 55px);
+	}
+	.left{
+		height: var(--box-height);
+		padding-left: 12px;
+		width: 68%;
+	}
+	.right{
+		width:calc(30% - 14px);
+		height: var(--box-height);
 	}
 </style>

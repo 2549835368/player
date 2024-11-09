@@ -1,13 +1,23 @@
+:root{
+	--bg-color:rgba(255, 255, 255, 1.0);
+	--box-height:calc(100vh - 112px);
+	--header-height: 60px
+}
 .common-margin{
 	margin-left: 100px;
 	margin-right: 100px;
+	
 }
 div{
 	font-size: 18px;
 }
-:root{
-	--bg-color:rgba(255, 255, 255, 1.0);
-	--box-height:calc(100vh - 112px);
+.header{
+	height: var(--header-height);
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: center;
 }
 .header-color{
 	transition: background-color  0.5s ease-in-out;
@@ -25,10 +35,11 @@ body{
 	margin: 0px;
 }
 .scroll .el-scrollbar__view{
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		justify-content: center;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	/* padding: 0 5% */
 }
 a{
   color: #000000;
@@ -39,18 +50,82 @@ a{
 a:hover {
   color: rgba(0, 170, 255, 1.0);
   transition: 0.5s ease;
+  cursor: pointer;
 }
 
-#video{
+.background{
 	position: absolute;
 	z-index: -100;
-	object-fit: fill;
+	/* object-fit: fill; */
 	left:0px;
 	top:0px;
 	width: 100%;
 	height: 100%;
+	background-image: url(./bg.gif);
+	background-position: center center; /* 图片居中 */
+	background-repeat: no-repeat; /* 不重复 */
+	background-size: cover; /* 覆盖整个屏幕 */
 }
+.box-background{
+	backdrop-filter:blur(.5px);
+	background-color: rgba(147, 147, 147, 0.2);
+}
+	
 .container{
 	padding-top: 5px;
-	min-width: 500px;
+	min-width: 700px;
+}
+.el-tabs__header {
+    margin: 0 0 0px;
+
+}
+.el-pager li {
+	background-color: transparent;
+	color: white;
+}
+.el-pagination button{
+	background-color: transparent;
+	color: white;
+}
+.el-pagination button:disabled{
+	background-color: transparent;
+/* 	color: var(--bg-color); */
+}
+.el-popover.el-popper {
+	min-width: 50px;
+}
+.uploadWraper{
+	width: 800px;
+	height: 200px;
+	border: 2px dashed white;
+	border-radius: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	cursor: pointer;
+	margin:10px auto;
+	backdrop-filter:blur(.5px);
+	background-color: rgba(97, 97, 97, 0.2);
+}
+.uploadWraper:hover{
+	border: 2px dashed #409EFF;
+}
+.el-form-item__label{
+	color: white;
+	font-size: 20px;
+}
+.blackform .el-form-item__label{
+	color: var(--el-text-color-primary);
+	font-size:18px;
+}
+.hide{
+	display: none;
+}
+.popForm .el-form-item__label{
+	color: black;
+	font-size: 14px;
+}
+.el-radio.is-bordered {
+    background-color: white;
 }

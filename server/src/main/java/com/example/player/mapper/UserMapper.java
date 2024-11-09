@@ -9,10 +9,6 @@ import java.util.List;
 
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
-
-    @Select("select * from t_user")
-    public List<User> find();
-
-    @Select("select * from t_user where username = #{name}")
-    public User findByUsername(String name);
+    @Select("SELECT id FROM t_user where username = #{username}")
+    User queryIdByUsername(String username);
 }

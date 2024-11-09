@@ -28,8 +28,6 @@ public class VideoUploadController {
     @Autowired
     private VideoUploadService videoUploadService;
 
-    private  static final String ROOT_PATH = System.getProperty("user.dir") + File.separator + "files";
-
     @PostMapping("/preUpload")
     public Result preUpload(Video video){
         HashMap<String,Integer> res = videoUploadService.preUpload(video);
@@ -51,8 +49,7 @@ public class VideoUploadController {
 
     @PostMapping("/mergeChunk")
     public Result mergeChunk(@RequestParam("md5") String md5,@RequestParam("id") int id){
-        String url = videoUploadService.mergeChunk(md5,id);
-        return Result.success(url);
+        return videoUploadService.mergeChunk(md5,id);
     }
 
     @PostMapping("/deleteVideo")

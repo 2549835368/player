@@ -13,6 +13,10 @@ const routes = [
 		path:"/play/:vid",
 		component:() => import("../views/playView.vue")
 	},
+	{
+		path:"/upload",
+		component:() => import("../views/uploadView.vue")
+	}
 ]
 
 const router = createRouter({

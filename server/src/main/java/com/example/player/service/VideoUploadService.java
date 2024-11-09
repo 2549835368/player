@@ -14,7 +14,7 @@ public interface VideoUploadService {
 
     public int getCurrentChunk(String md5);
 
-    public String mergeChunk(String md5,int id);
+    public Result mergeChunk(String md5,int id);
 
     public int deleteVideo(int id);
 }

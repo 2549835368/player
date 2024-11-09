@@ -13,7 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.util.Arrays;
 
 @Service
 public class VideoPlayServiceImpl implements VideoPlayService {
@@ -62,8 +61,8 @@ public class VideoPlayServiceImpl implements VideoPlayService {
                 if(len != -1){
                     try{
                         outputStream.write(buff,0,len);
-                    }catch (Exception e){
-                        e.printStackTrace();
+                    }catch (Exception ignored){
+
                     }
                 }
 
@@ -78,8 +77,8 @@ public class VideoPlayServiceImpl implements VideoPlayService {
                 if(len != -1){
                     try{
                         outputStream.write(buff,0,len);
-                    }catch (Exception e){
-                        e.printStackTrace();
+                    }catch (Exception ignored){
+
                     }
 
                 }

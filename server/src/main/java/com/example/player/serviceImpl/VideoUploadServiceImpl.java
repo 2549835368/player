@@ -2,12 +2,16 @@ package com.example.player.serviceImpl;
 
 import cn.hutool.core.io.FileUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.example.player.bean.Result;
+import com.example.player.entity.CollectionVideo;
 import com.example.player.entity.Video;
 import com.example.player.entity.dto.VideoChunkDto;
 import com.example.player.exception.ServiceException;
 import com.example.player.mapper.UserMapper;
 import com.example.player.mapper.VideoMapper;
+import com.example.player.service.CollectionService;
 import com.example.player.service.VideoUploadService;
+import com.example.player.utils.VideoUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,16 +34,17 @@ public class VideoUploadServiceImpl implements VideoUploadService {
     @Value("${server.port}")
     private String port;
 
-
-
-
     @Autowired
     private RedisTemplate<Object,Object> redisTemplate;
 
     @Autowired
     private VideoMapper videoMapper;
 
-    private String ROOT_PATH = System.getProperty("user.dir") + File.separator;
+
+
+//    private String ROOT_PATH = System.getProperty("user.dir") + File.separator;
+    @Value("${ROOTPath:M:\\Videos\\}")
+    public String ROOT_PATH;
 
     @Value("${filePath:file}")
     public void setROOT_PATH(String filePath){
@@ -54,13 +60,13 @@ public class VideoUploadServiceImpl implements VideoUploadService {
 
         HashMap<String ,Integer> hashMap = new HashMap<>();
 
-        if(!dbVideos.isEmpty()){
-            video.setUrl(dbVideos.get(0).getUrl());
-            videoMapper.insert(video);
-            hashMap.put("index",-1);
-            hashMap.put("id",video.getId());
-            return hashMap;
-        }
+//        if(!dbVideos.isEmpty()){
+//            video.setUrl(dbVideos.get(0).getUrl());
+//            videoMapper.insert(video);
+//            hashMap.put("index",-1);
+//            hashMap.put("id",video.getId());
+//            return hashMap;
+//        }
         videoMapper.insert(video);
         hashMap.put("id",video.getId());
         System.err.println(video.getId());
@@ -116,21 +122,22 @@ public class VideoUploadServiceImpl implements VideoUploadService {
         return index;
     }
 
-    public String mergeChunk(String md5,int id){
+    public Result mergeChunk(String md5,int id){
         int max = (int) redisTemplate.opsForHash().get(md5,"max");
 
         Video dbVideo = videoMapper.selectById(id);
 
         if(dbVideo == null){
-            return "错误";
+            throw new ServiceException(500,"上传错误");
         }
 
         FileUtil.mkdir(ROOT_PATH);
 
-        String path = ROOT_PATH + File.separator + md5 + "." +dbVideo.getSuffix();
+        String path = ROOT_PATH + File.separator + md5 +"_" + id + "." +dbVideo.getSuffix();
         File saveFile = new File(path);
         dbVideo.setUrl(path);
         FileOutputStream fos = null;
+        double duration;
         try{
             fos = new FileOutputStream(saveFile);
             for(int i = 1; i <= max; i++){
@@ -142,15 +149,29 @@ public class VideoUploadServiceImpl implements VideoUploadService {
                     IOUtils.copy(is, fos);
                 }
             }
+            duration = VideoUtils.getVideoDuration(path);
+            dbVideo.setDuration(duration);
+            dbVideo.setTimestamp(new Timestamp(System.currentTimeMillis()));
+            videoMapper.updateById(dbVideo);
+
         }
         catch (IOException e) {
-            return "合并失败";
+            throw new ServiceException(500,"合并失败");
         } finally {
             IOUtils.closeQuietly(fos);
-            videoMapper.updateById(dbVideo);
         }
 
-        return "合并成功";
+        String coverPath = ROOT_PATH + File.separator +"cover"+ File.separator;
+
+
+
+        List<String> saveNameList = VideoUtils.getVideoCover(path,coverPath,md5,duration);
+
+        String url = "http://" + ip + ":" + port + "/image/download/cover/";
+
+        saveNameList.replaceAll(s -> url + s);
+
+        return Result.success(saveNameList);
     }
 
     public int deleteVideo(int id){

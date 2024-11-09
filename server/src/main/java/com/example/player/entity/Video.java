@@ -15,15 +15,18 @@ public class Video {
     @TableId(type = IdType.AUTO)
     private Integer id;
     private String title;
-    private int authId;
-    private int partId;
+    private Integer authId;
+    private Integer partId;
     private String tags;
     private String md5;
     private String url;
     private String coverUrl;
     private String suffix;
     @TableField(exist = false)
-    private int max;
-    private int collectionId;
+    private Integer max;
+    private Integer collectionId;
     private Timestamp timestamp;
+    private String profile;
+    private Double duration;
+    private Integer state;//0 待上传 1已上传 2通过审核
 }

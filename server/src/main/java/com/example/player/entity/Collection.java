@@ -1,13 +1,18 @@
 package com.example.player.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.sql.Timestamp;
+
 @Data
 @TableName("t_collection")
-public class Collection {
+public class Collection{
+    @TableId(type = IdType.AUTO)
     Integer id;
-    int cid;
-    int vid;
-    int seq;
+    int uid;
+    String title;
+    Timestamp createdTime;
 }

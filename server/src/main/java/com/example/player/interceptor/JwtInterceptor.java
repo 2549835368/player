@@ -1,6 +1,7 @@
 package com.example.player.interceptor;
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.player.entity.User;
 import com.example.player.exception.ServiceException;
 import com.example.player.mapper.UserMapper;
@@ -23,13 +24,15 @@ public class JwtInterceptor implements HandlerInterceptor {
         }
         if(StrUtil.isBlank(token)){
             System.err.println("请登录");
-            throw new ServiceException("401","请登录");
+            throw new ServiceException(401,"请登录");
         }
         String username = JwtUtils.getClaimsByToken(token).getSubject();
         System.err.println(username);
-        User user = userMapper.findByUsername(username);
-        if(user == null){
-            throw new ServiceException("401","请重新登录");
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username",username);
+        User dbUser = userMapper.selectOne(queryWrapper);
+        if(dbUser == null){
+            throw new ServiceException(401,"请重新登录");
         }
 
         return true;

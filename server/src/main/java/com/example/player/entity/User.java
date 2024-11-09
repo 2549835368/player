@@ -13,5 +13,9 @@ public class User {
     private String username;
     private String password;
     private String profile;
+    private int role = 2;
+    private String nickname;
+    private String avatar_url;
+    private String email;
 
 }
